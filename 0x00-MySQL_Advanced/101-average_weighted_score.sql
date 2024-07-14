@@ -1,21 +1,25 @@
 -- computes and store the average weighted score for all students
 DELIMITER $$
 
-CREATE PROCEDURE ComputeAverageWeightedScoreForUsers(
-)
+CREATE PROCEDURE ComputeAverageWeightedScoreForUsers()
 BEGIN
-    DECLARE average_score FLOAT;
+    -- Temporary table to store computed average scores
+    CREATE TEMPORARY TABLE temp_average_scores (
+        user_id INT,
+        average_score FLOAT
+    );
 
-    SELECT AVG(SUM(p.weight) * SUM(c.score)) INTO average_score
+    INSERT INTO temp_average_scores (user_id, average_score)
+    SELECT c.user_id, AVG(p.weight * c.score) AS average_score
     FROM corrections c
     JOIN projects p ON c.project_id = p.id
-    WHERE c.user_id = p_user_id;
+    GROUP BY c.user_id;
 
-    -- Update the users table with the computed average score
-    UPDATE users
-    SET average_score = average_score
-    WHERE id = p_user_id;
-    
+    UPDATE users u
+    JOIN temp_average_scores tas ON u.id = tas.user_id
+    SET u.average_score = tas.average_score;
+
+    DROP TEMPORARY TABLE IF EXISTS temp_average_scores;
 END $$
 
 DELIMITER ;
