@@ -3,10 +3,12 @@
 DELIMITER $$
 
 CREATE TRIGGER update_quantity
-BEFORE UPDATE ON items
+AFTER INSERT ON orders
 FOR EACH ROW
 BEGIN
-    SET NEW.quantity = items.quantity - order.number
+    UPDATE items
+    SET quantity = quantity - NEW.number
+    WHERE name = NEW.item_name;
 END $$
 
 DELIMITER ;
