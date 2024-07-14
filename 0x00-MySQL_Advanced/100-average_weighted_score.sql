@@ -1,19 +1,21 @@
 -- creates a stored procedure that computes and store the average weighted score for a student.
-DELIMITER $$
+-- Drop the procedure if it already exists to avoid conflicts
+DROP PROCEDURE IF EXISTS ComputeAverageWeightedScoreForUser;
 
+-- Change the delimiter to handle the procedure definition
+DELIMITER $$
 CREATE PROCEDURE ComputeAverageWeightedScoreForUser(
     IN p_user_id INT
 )
 BEGIN
-    DECLARE average_score FLOAT;
-    SELECT AVG(p.weight * c.score) INTO average_score
+    DECLARE avg_score INT;
+    SELECT SUM(c.score * p.weight) / SUM(p.weight)
+    INTO avg_score
     FROM corrections c
     JOIN projects p ON c.project_id = p.id
     WHERE c.user_id = p_user_id;
     UPDATE users
-    SET average_score = average_score
+    SET average_score = COALESCE(avg_score, 0)
     WHERE id = p_user_id;
-    
 END $$
-
 DELIMITER ;
