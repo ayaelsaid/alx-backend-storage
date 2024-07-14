@@ -6,15 +6,11 @@ CREATE FUNCTION SafeDiv(a INT, b INT)
 RETURNS INT
 DETERMINISTIC
 BEGIN
-    DECLARE result INT;
-
     IF b = 0 THEN
         RETURN 0;
+    ELSE
+        RETURN a / b;
     END IF;
-
-    SET result = a / b
-
-    RETURN result;
 END $$
 
 DELIMITER ;
