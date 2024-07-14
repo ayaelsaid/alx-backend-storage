@@ -1,10 +1,10 @@
 -- creates a stored procedure that computes and store the average weighted score for a student.
 
-DROP PROCEDURE IF EXISTS ComputeAverageWeightedScoreForUsers;
+DROP PROCEDURE IF EXISTS ComputeAverageWeightedScoreForUser;
 
 DELIMITER $$
 
-CREATE PROCEDURE ComputeAverageWeightedScoreForUsers()
+CREATE PROCEDURE ComputeAverageWeightedScoreForUser()
 BEGIN
     -- Create temporary table to store computed average scores
     CREATE TEMPORARY TABLE temp_average_scores (
