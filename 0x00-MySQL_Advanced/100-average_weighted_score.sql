@@ -1,9 +1,6 @@
 -- creates a stored procedure that computes and store the average weighted score for a student.
--- Drop the procedure if it already exists to avoid conflicts
-DROP PROCEDURE IF EXISTS ComputeAverageWeightedScoreForUser;
-
--- Change the delimiter to handle the procedure definition
 DELIMITER $$
+DROP PROCEDURE IF EXISTS ComputeAverageWeightedScoreForUser;
 
 -- Create the stored procedure
 CREATE PROCEDURE ComputeAverageWeightedScoreForUser(
